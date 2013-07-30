@@ -24,11 +24,49 @@ this program. If not, see http://www.gnu.org/licenses/.
 function onOpen() {
   
   var subMenus = [{name:"Send Status Email", functionName: "emailStatusUpdates"},
-                  {name:"Notify Assignee", functionName: "notifyAssignee"}];
+                  {name:"Notify Assignee", functionName: "notifyAssignee"},
+                  {name:"Sort and Filter", functionName: "sortAndFilter"];
  
   SpreadsheetApp.getActiveSpreadsheet().addMenu("Job Management", subMenus);
   
 }
+
+// Sort and filter the spreadsheet
+// ===============================
+
+function sortAndFilter() {
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  // Sort the sheet by Status
+  sheet.sort(7, false);
+  
+  // Sorts the sheet by Priority
+  sheet.sort(6, false);
+  
+  // Filter 
+  var rows = sheet.getDataRange();
+  var numRows = rows.getNumRows();
+  var values = rows.getValues();
+  
+  for (var i=1; i <= numRows -1; i++) {
+    
+    var row = values[i];
+    
+    // Column value
+    var myValue = row[6];
+    
+    // filter value 
+    if (myValue == "3 - Closed") {
+      
+      sheet.hideRows(i+1);
+      
+    }
+    
+  }
+
+} // sortAndFilter
 
 // Send an email status update
 // ===========================
