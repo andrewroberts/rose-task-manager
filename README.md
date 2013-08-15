@@ -1,8 +1,11 @@
 rose-cmms
 =========
 
-Computerised Maintenance Management System (CMMS) in Google Apps Script (GAS)
+Rose CMMS is a Computerised Maintenance Management System (CMMS) that has been developed to make full use of Google Apps and tied together with Google Apps Script.
 
+In is still early in development and at present only supports planned preventative maintenance (PPM) and work orders (ad hoc job requests) - pretty much a task manager. 
+
+The heart of the CMMS is the job list spreadsheet, which has to be created with the fields detailed in config.gs and its ID has to be entered in config.gs (along with an admin email address).
 
 Documentation is available on Google Drive
 ------------------------------------------
