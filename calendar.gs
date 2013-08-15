@@ -19,33 +19,35 @@ this program. If not, see http://www.gnu.org/licenses/.
 */
 
 //
-// Convert calendar events to jobs
-// ===============================
+// Convert calendar events to tasks
+// ================================
 // 
-// Read in all of todays events on the PPM and add a row to the job list 
+// Read in all of todays events and add a row to the task list 
 // spreadsheet for each.
 
-function convertEventsToJobs() {
+function convertEventsToTasks() {
 
   if (RUN_UNIT_TESTS == false) {
     
-    var calName = PPM_CALENDAR_NAME;
-    var jobsListSsId = JOBS_LIST_SPREADSHEET_ID;
+    var calName = REGULAR_TASK_CALENDAR_NAME;
+    var taskListSsId = TASK_LIST_SPREADSHEET_ID;
     
   } else {
     
-    var calName = UNIT_TESTS_PPM_CALENDAR_NAME;
-    var jobsListSsId = UNIT_TESTS_JOBS_LIST_SPREADSHEET_ID;
+    var calName = UNIT_TESTS_CALENDAR_NAME;
+    var taskListSsId = UNIT_TESTS_TASK_LIST_ID;
 
   }    
   
-  // Get the calendar object for the PPM calendar
+  log(logType.INFO, 'convertEventsToRows', 'Calendar to open:' + calName);
+  
+  // Get the calendar object for the calendar
   var calendars = CalendarApp.getCalendarsByName(calName);
   
-  // Check there isn't more than one PPM calendar
+  // Check there isn't more than one calendar
   if (calendars.length != 1) {
     
-    log(logType.WARNING, 'convertEventsToRows', 'Should be one PPM calendar:', calendars.length);
+    log(logType.WARNING, 'convertEventsToRows', 'Should be one calendar:', calendars.length);
     return false;  
 
   }
@@ -68,7 +70,7 @@ function convertEventsToJobs() {
   
   log(logType.INFO, 
       'convertEventsToRows', 
-      'Number of events today on PPM: ' + events.length + " start: " + startOfDay + " end: " + endOfDay);
+      'Number of events today: ' + events.length + " start: " + startOfDay + " end: " + endOfDay);
   
   if (events.length == 0) {
     
@@ -77,30 +79,32 @@ function convertEventsToJobs() {
     
   }
     
-  // Open the job list spreadsheet 
-  var ss = SpreadsheetApp.openById(jobsListSsId);
+  // Open the task list spreadsheet 
+  var ss = SpreadsheetApp.openById(taskListSsId);
   
   if (ss == null){
    
-    log(logType.WARNING, 'convertEventsToRows', 'Could not open the jobs list spreasheet');
+    log(logType.WARNING, 'convertEventsToRows', 'Could not open the task list spreasheet');
     return false;
     
   }
   
-  // Get the first sheet in the spreadsheet
-  var ssheet = ss.getSheetByName(JOBS_LIST_WORK_SHEET_NAME)
+  // Get the task list sheet in the spreadsheet
+  var ssheet = ss.getSheetByName(TASK_LIST_WORK_SHEET_NAME)
   
   if (ssheet == null) {
     
     log(logType.WARNING, 
         'convertEventsToRows', 
-        'Could not open the worksheet in jobs list spreadsheet');
+        'Could not open the worksheet in task list spreadsheet');
     
     return false;
     
   }
   
-  // Add an entry to the job list spreadsheet for each event
+  var nextFreeRow = ssheet.getLastRow() + 1;
+  
+  // Add an entry to the task list spreadsheet for each event
   for (var i = 0; i < events.length; i++) {
     
     // Extract the data for this event
@@ -109,56 +113,41 @@ function convertEventsToJobs() {
     var location = events[i].getLocation();
     var eventId = events[i].getId();
     
-    // Create an ID for the job (match ID to row number of next free one)
-    var jobId = ssheet.getLastRow() + 1;
+    // Create an ID for the task (match ID to row number of next free one)
+    var id = ssheet.getLastRow() + 1;
     
     // Write it into the spreadsheet
-    var appendResult = ssheet.appendRow([today, // Opened
-                                         "", // Closed
-                                         jobId,
-                                         title,
-                                         location,
-                                         PRIORITY_NORMAL, 
-                                         STATUS_NEW,
-                                         "", // Department
-                                         "", // Owner
-                                         PROJECT_NO,
-                                         GSP_NO,
-                                         PPM_CALENDAR_NAME, // Requested by
-                                         MAINTENANCE_MANAGER_EMAIL, // Contact email
-                                         eventId, // Calendar Event Series ID 
-                                         description]); // Notes
-    
-    if (appendResult == null) {
-      
-      log(logType.ERROR, 
-          'convertEventsToRows', 
-          'Could not add PPM event details to jobs list spreadsheet');
-      
-      return false;
-      
-    }
-      
+    setCellValue(ssheet, nextFreeRow, SS_COL_TIMESTAMP, today);
+    setCellValue(ssheet, nextFreeRow, SS_COL_ID, id);
+    setCellValue(ssheet, nextFreeRow, SS_COL_TITLE, title);
+    setCellValue(ssheet, nextFreeRow, SS_COL_LOCATION, location);
+    setCellValue(ssheet, nextFreeRow, SS_COL_PRIORITY, PRIORITY_NORMAL);
+    setCellValue(ssheet, nextFreeRow, SS_COL_STATUS, STATUS_NEW);
+    setCellValue(ssheet, nextFreeRow, SS_COL_REQUESTED_BY, REGULAR_TASK_CALENDAR_NAME);
+    setCellValue(ssheet, nextFreeRow, SS_COL_EVENT_ID, eventId);
+    setCellValue(ssheet, nextFreeRow, SS_COL_NOTES, description);
+ 
     log(logType.INFO, 
         'convertEventsToRows', 
-        'Added PPM event details to jobs list spreadsheet');
+        'Added regular task details to task list spreadsheet');
     
-    // Send a notification email to the maintenance manager. Do that here to 
-    // centralise and standardise job notifications, rather than using the
+    nextFreeRow++;
+    
+    // Send a notification email . Do that here to 
+    // centralise and standardise task notifications, rather than using the
     // calendar email notifications.
     
-    var emailSubject = "PPM Job #" + jobId + " - " + title + " - is due";
+    var subjectTemplate = CALENDAR_SUBJECT_TEMPLATE;
+    var subjectData = {id:id, title:title};
+    var subject = fillInTemplateFromObject(subjectTemplate, subjectData);
     
-    var emailBody = "PPM AUTO-NOTIFICATION." +
-                    "\n\nPPM Job - " + title + " - due." +
-                    "\n\nSee maintenance job list for details and to assign and track progress.";
-    
-    MailApp.sendEmail(MAINTENANCE_MANAGER_EMAIL, 
-                      emailSubject, 
-                      emailBody, 
-                      EMAIL_OPTIONS_PPM);
+    var bodyTemplate = CALENDAR_BODY_TEMPLATE;
+    var bodyData = {id:id, title:title};
+    var body = fillInTemplateFromObject(bodyTemplate, bodyData);
+        
+    MailApp.sendEmail(ADMIN_EMAIL, subject, body, {name:CMMS_NAME});
   
-    log(logType.INFO, "convertEventsToJobs", "PPM Email sent to maintenance manager - " + emailSubject);
+    log(logType.INFO, "convertEventsToTasks", "Regular email notification sent. Subject: " + subject + " Body: " + body);
     
   } // for each event
 

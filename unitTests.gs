@@ -18,16 +18,32 @@ this program. If not, see http://www.gnu.org/licenses/.
 
 */
 
+// See the test doc for how to set up the unit tests
+// =================================================
+
+
+// Unit Tests Config
+// =================
+
+UNIT_TESTS_SPREADSHEET = "RoseCMMS_Unit_Tests_Spreadsheet"
+UNIT_TESTS_FIRSTCOL = "FirstCol"
+UNIT_TESTS_SECONDCOL = "SecondCol"
+
+UNIT_TESTS_TASK_LIST = "RoseCMMS_Unit_Tests_Task_List"
+
+UNIT_TESTS_CALENDAR_NAME = "RoseCMMS_UNIT_TESTS"
+UNIT_TESTS_TASK_LIST_ID = "0AhRtIprIrwuzdDZRRTVOOGt3SmxKZFd1emxiUjRtUXc"
+
 // Run the unit tests
 // ==================
 
 function runUnitTests(event) {
-  
+
   // QUnit.urlParams(event.parameter);
   QUnit.config({title: "Rose CMMS - Unit tests" });
   QUnit.load(myTests);
   return QUnit.getHtml();
-  
+
 };
 
 // Imports the following functions:
@@ -40,21 +56,54 @@ QUnit.helpers(this);
 
 function myTests() {
   
-  // utilities.gs
-  // ------------
+  // Set up the test spreadsheet
+  // ---------------------------
   
-  // Need tests for openSpreadSheet
-  
-  // Check for the required docs and create if necessary
-  var sheet = openSpreadSheet(UNIT_TESTS_SPREADSHEET_NAME).getSheets()[0];
+  var testSheet = openSpreadSheet(UNIT_TESTS_SPREADSHEET).getSheets()[0];
   
   // Set up the spreadsheet headers
   var headers = [[UNIT_TESTS_FIRSTCOL, UNIT_TESTS_SECONDCOL]];
-  sheet.clear();
-  sheet.getRange("A1:B1").setValues(headers);
+  testSheet.clear();
+  testSheet.getRange("A1:B1").setValues(headers);
+  
+  // Set up the test task list
+  // -------------------------
+  
+  var taskList = openSpreadSheet(UNIT_TESTS_TASK_LIST).getSheets()[0];
+  
+  // Set up the spreadsheet headers
+  var headers = [[SS_COL_TIMESTAMP, 
+                  SS_COL_CLOSED,
+                  SS_COL_ID,
+                  SS_COL_TITLE,
+                  SS_COL_LOCATION,
+                  SS_COL_PRIORITY,
+                  SS_COL_STATUS,
+                  SS_COL_CATEGORY,
+                  SS_COL_REQUESTED_BY,
+                  SS_COL_CONTACT_EMAIL,
+                  SS_COL_EVENT_ID,
+                  SS_COL_NOTES]];
+  
+  taskList.clear();
+  
+  taskList.getRange("A1:L1").setValues(headers);
+
+  // config.gs
+  //----------
+  
+  // Just config values, no functions
   
   module("utilities.gs");
+  // --------------------
   
+  // This function is already used in setting up the unit tests, so check we find the same sheet again
+  test("openSpreadSheet", function() { 
+
+    deepEqual(openSpreadSheet(UNIT_TESTS_SPREADSHEET).getSheets()[0], testSheet, "");
+  
+  });
+
   test("log", function() {
     
     deepEqual(log(logType.ERROR, "myTests", "test msg"), "ERROR: myTests: test msg", "");
@@ -65,74 +114,105 @@ function myTests() {
 
   test("getColIndexByName", function() {
     
-    deepEqual(getColIndexByName(sheet, UNIT_TESTS_FIRSTCOL), 1, "");
-    deepEqual(getColIndexByName(sheet, "SOME RANDOM TEXT"), -1, "");    
+    deepEqual(getColIndexByName(testSheet, UNIT_TESTS_FIRSTCOL), 1, "");
+    deepEqual(getColIndexByName(testSheet, "SOME RANDOM TEXT"), -1, "");    
   
   });
   
   // Clear the field A2 in the spreadsheet
-  sheet.getRange("A2").setValue("");
+  testSheet.getRange("A2").setValue("");
   
   test("setCellValue", function() {
     
-    deepEqual(setCellValue(sheet, 2, UNIT_TESTS_FIRSTCOL, 99), sheet.getRange("A2").getValue());
+    deepEqual(setCellValue(testSheet, 2, UNIT_TESTS_FIRSTCOL, 99), testSheet.getRange("A2").getValue());
     
   });
   
   test("getCellValue", function() {
     
-    deepEqual(getCellValue(sheet, 2, UNIT_TESTS_FIRSTCOL), sheet.getRange("A2").getValue());
+    deepEqual(getCellValue(testSheet, 2, UNIT_TESTS_FIRSTCOL), testSheet.getRange("A2").getValue());
     
   });
   
-  // This only gets run the once so do a visual check on the test email account, calendar and job list.
-  test("importPPMEvents", function() {
+  module("triggers.gs");
+  //------------------
     
-    // Takes ages (20s)
-    // deepEqual(importPPMEvents(), true);
-    ok(true);
-    
-  });
-
-  // This only gets run the once so do a visual check on the test job list.
-  test("importJobList", function() {
-    
-    deepEqual(importJobList(), true);
-    
-  });
+  // onOpen() and onEdit() are tested in systems tests, not going to replicate in unit.
   
-  // onOpen.gs
-  // ---------
-  
-  module("onOpen.gs");
-    
+  // Add the necessary fields to the test task list to run emailStatusUpdates
+  setCellValue(taskList, 2, SS_COL_ID, 2);
+  setCellValue(taskList, 2, SS_COL_CONTACT_EMAIL, ADMIN_EMAIL);
+  setCellValue(taskList, 2, SS_COL_STATUS, STATUS_NEW);
+  setCellValue(taskList, 2, SS_COL_TITLE, "test task");
+                                                        
   test("emailStatusUpdates", function() {
     
     deepEqual(emailStatusUpdates(), true);
     
   });
-
-  test("notifyAssignee", function() {
+  
+  test("sortAndFilter", function() {
     
-    deepEqual(notifyAssignee(), true);
+    deepEqual(sortAndFilter(), true);
     
   });
   
-  // calendar.gs
-  // -----------
-
   module("calendar.gs");
+  //--------------------
   
-  test("convertEventsToJobs", function() {
+  test("convertEventsToTasks", function() {
     
-    deepEqual(convertEventsToJobs(), true);
+    deepEqual(convertEventsToTasks(), true);
     
   });
   
   // form.gs
   // -------
-  
+  //
   // form.gs is just tested in system tests
+  //
+  
+  // unitTests.gs
+  // ------------
+  //
+  // This file.
+  //
+  
+  // style.gs
+  // --------
+  //
+  // Just config, no functionality to test
+  //
+  
+  // doGet.gs
+  // --------
+  //
+  // Tested in system tests
+  //
+  
+  module("fillTemplate.gs");
+  // -----------------------
+  
+  var template = "Replace this ${\"Test\"} and ${\"Test1\"}";
+  var value = {test:"text", test1:"text1"};
+  
+  test("fillInTemplateFromObject", function() {
+    
+    deepEqual(fillInTemplateFromObject(template,value), "Replace this text and text1");
+    
+  });
+  
+  // importDDDP.gs
+  // -------------
+  //
+  // This was just used back in v0.1.0, although there are test sheets available
+  //
+  
+  // changeLog.gs
+  // ------------
+  //
+  // Just change info
+  //
   
 }
 

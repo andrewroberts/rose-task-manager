@@ -18,8 +18,8 @@ this program. If not, see http://www.gnu.org/licenses/.
 
 */
 
-// Create the job request form
-// ===========================
+// Create the task request form
+// ============================
 
 function createForm(event) {
   
@@ -187,9 +187,9 @@ function submit(e) {
   // Write the data in the text boxes back to the Spreadsheet
   // --------------------------------------------------------
   
-  var ss = SpreadsheetApp.openById(JOBS_LIST_SPREADSHEET_ID);
-  var sheet = ss.getSheetByName(JOBS_LIST_WORK_SHEET_NAME);  
-  var jobID = ss.getLastRow() + 1; // Match ID to row number of next free one
+  var ss = SpreadsheetApp.openById(TASK_LIST_SPREADSHEET_ID);
+  var sheet = ss.getSheetByName(TASK_LIST_WORK_SHEET_NAME);  
+  var id = ss.getLastRow() + 1; // Match ID to row number of next free one
   var nextFreeRow = ss.getLastRow() + 1;
   var date = new Date();
   
@@ -197,7 +197,7 @@ function submit(e) {
   log(logType.INFO, "submit", "Event normal priority = " + e.parameter.normalPriority); 
   log(logType.INFO, "submit", "Event high priority = " + e.parameter.highPriority); 
   
-  // Get the priority of the job by checking which radio button was active
+  // Get the priority of the task by checking which radio button was active
   var priority = PRIORITY_LOW;
   
   if (e.parameter.normalPriority == "true") {
@@ -212,7 +212,7 @@ function submit(e) {
    
   log(logType.INFO, "submit", "priority = " + priority); 
   
-  setCellValue(sheet, nextFreeRow, SS_COL_ID, jobID);
+  setCellValue(sheet, nextFreeRow, SS_COL_ID, id);
   setCellValue(sheet, nextFreeRow, SS_COL_TIMESTAMP, date);
   setCellValue(sheet, nextFreeRow, SS_COL_TITLE, e.parameter.title);
   setCellValue(sheet, nextFreeRow, SS_COL_REQUESTED_BY, e.parameter.requestedBy);
@@ -220,8 +220,6 @@ function submit(e) {
   setCellValue(sheet, nextFreeRow, SS_COL_CONTACT_EMAIL, e.parameter.contactEmail);
   setCellValue(sheet, nextFreeRow, SS_COL_LOCATION, e.parameter.location);
   setCellValue(sheet, nextFreeRow, SS_COL_STATUS, STATUS_NEW);
-  setCellValue(sheet, nextFreeRow, SS_COL_PROJECT, PROJECT_NO);
-  setCellValue(sheet, nextFreeRow, SS_COL_GSP , GSP_NO);
   setCellValue(sheet, nextFreeRow, SS_COL_NOTES, e.parameter.description);
   
   log(logType.INFO, "submit", "Data written to spreadsheet");
@@ -229,24 +227,22 @@ function submit(e) {
   // Construct and send the response email to user
   // ---------------------------------------------
   
-  // Extract the contact email and the job description from the event object
+  // Extract the contact email and the task description from the event object
   var userEmail = e.parameter.contactEmail;
   var title = e.parameter.title;
   
-  var emailSubject = "Job #" + jobID + " - \"" + title + "\" Recieved";
+  // Create the email and send it
+  var subjectTemplate = FORM_SUBJECT_TEMPLATE;
+  var subjectData = {id:id, title:title};
+  var subject = fillInTemplateFromObject(subjectTemplate, subjectData);
+    
+  var bodyTemplate = FORM_BODY_TEMPLATE;
+  var bodyData = {id:id, title:title};
+  var body = fillInTemplateFromObject(bodyTemplate, bodyData);
+    
+  MailApp.sendEmail(userEmail, subject, body, {name:CMMS_NAME, cc:ADMIN_EMAIL});
   
-  var emailBody = "AUTO-RESPONSE." +
-                  "\n\nThank you for submitting job #" + jobID + " - " + title + "." +
-                  "\n\nSee the maintenance job list for details and to track progress." +  
-                  "\n\nThe Maintenance Manager" +
-                  "\n\nx" + MAINTENANCE_OFFICE_EXTENSION;
-             
-  MailApp.sendEmail(userEmail, 
-                    emailSubject, 
-                    emailBody, 
-                    EMAIL_OPTIONS_CC_MM);
-  
-  log(logType.INFO, "submit", "Email sent to user: " + emailSubject);
+  log(logType.INFO, "submit", "subject: " + subject + "body: " + body);
 
   // Clear the values from the text boxes so that new values can be entered
   // ----------------------------------------------------------------------
@@ -267,11 +263,7 @@ function submit(e) {
   // Make the status line visible and tell the user the possible actions
   app.getElementById('status')
      .setVisible(true)
-     .setText('Thank you for your job request. You ' +
-              'will receive email confirmation shortly. To make another request type in the ' + 
-              'information and click Submit. ' + 
-              '\n\nSee the Maintenance Job List for ' +
-              'details and to track progress.');
+     .setText(FORM_ACK_TEXT);
   
   return app;
   

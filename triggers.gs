@@ -24,10 +24,9 @@ this program. If not, see http://www.gnu.org/licenses/.
 function onOpen() {
   
   var subMenus = [{name:"Send Status Email", functionName: "emailStatusUpdates"},
-                  {name:"Notify Assignee", functionName: "notifyAssignee"},
                   {name:"Sort and Filter", functionName: "sortAndFilter"}];
  
-  SpreadsheetApp.getActiveSpreadsheet().addMenu("Job Management", subMenus);
+  SpreadsheetApp.getActiveSpreadsheet().addMenu("Task Management", subMenus);
   
 }
 
@@ -58,7 +57,7 @@ function onEdit(event) {
     
     log (logType.INFO, "onEdit", "Changed value =" + value);
   
-    if ((value == STATUS_CLOSED) || (value == STATUS_DONE)) {
+    if ((value == STATUS_IGNORED) || (value == STATUS_DONE)) {
     
       // Record the closed date
       log(logType.INFO, "onEdit", "set closed date");
@@ -81,8 +80,18 @@ function onEdit(event) {
 
 function sortAndFilter() {
   
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheets()[0];
+  
+  if (RUN_UNIT_TESTS == true) {
+   
+    // Use the test list rather than the main one
+    var sheet = openSpreadSheet(UNIT_TESTS_TASK_LIST).getSheets()[0];
+
+  } else {
+  
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    
+  }
+  
   var statusIndex = getColIndexByName(sheet, SS_COL_STATUS);
   var priIndex = getColIndexByName(sheet, SS_COL_PRIORITY);
   
@@ -105,13 +114,15 @@ function sortAndFilter() {
     var myValue = row[statusIndex - 1];
     
     // filter value 
-    if ((myValue == STATUS_CLOSED) || (myValue == STATUS_DONE)) {
+    if ((myValue == STATUS_IGNORED) || (myValue == STATUS_DONE)) {
       
       sheet.hideRows(i+1);
       
     }
     
   }
+  
+  return true;
 
 } // sortAndFilter
 
@@ -122,13 +133,15 @@ function emailStatusUpdates() {
   
   if (RUN_UNIT_TESTS == true) {
    
-    // Use the test job list rather than the main one
-    var sheet = SpreadsheetApp.openById(UNIT_TESTS_JOBS_LIST_SPREADSHEET_ID).getSheets()[0];
-    sheet.setActiveSelection(sheet.getRange("E2"));
-        
+    // Use the test list rather than the main one
+    var sheet = openSpreadSheet(UNIT_TESTS_TASK_LIST).getSheets()[0];
+    sheet.setActiveSelection(sheet.getRange("E2")); // TODO - hardcoding 
+
   } else {
   
-    // Get the row number of the row in the spreadsheet that's currently active.
+    // Get the row number of the row in the spreadsheet that's 
+    // currently active (the task list).
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = SpreadsheetApp.getActiveSheet();
     
   }
@@ -163,9 +176,7 @@ function emailStatusUpdates() {
   }
   
   var title = sheet.getRange(row, getColIndexByName(sheet, SS_COL_TITLE)).getValue();
-
   var status = sheet.getRange(row, getColIndexByName(sheet, SS_COL_STATUS)).getValue();
-  
   var id = sheet.getRange(row, getColIndexByName(sheet, SS_COL_ID)).getValue();
   
   if (status == "") {
@@ -177,16 +188,15 @@ function emailStatusUpdates() {
   
   // Construct the update email and send it
   
-  var subject = "Job #" + id + " - Status Update - " + "\"" + status + "\"";
+  var subjectTemplate = STATUS_SUBJECT_TEMPLATE;
+  var subjectData = {id:id, status:status};
+  var subject = fillInTemplateFromObject(subjectTemplate, subjectData);
+    
+  var bodyTemplate = STATUS_BODY_TEMPLATE;
+  var bodyData = {row:id, title:title, status:status};
+  var body = fillInTemplateFromObject(bodyTemplate, bodyData);
   
-  var body = "We've updated the status of job #" + row +" - " + title + "." +
-             "\n\nNew " + SS_COL_STATUS + ": " + status +
-             "\n\nPlease see the maintenance job list for more details or contact " +
-             "the maintenance manager." +
-             "\n\nThe Maintenance Manager" +
-             "\n\nx" + MAINTENANCE_OFFICE_EXTENSION;
-               
-  MailApp.sendEmail(userEmail, subject, body, EMAIL_OPTIONS_CC_MM);
+  MailApp.sendEmail(userEmail, subject, body, {name:CMMS_NAME, cc:ADMIN_EMAIL});
   
   log(logType.INFO, 
       "emailStatusUpdates", 
@@ -196,100 +206,4 @@ function emailStatusUpdates() {
   
   return true;
   
-}
-
-// Notify staff that job has been assigned
-// =======================================
-
-function notifyAssignee() {
-
-  if (RUN_UNIT_TESTS == true) {
-   
-    // Use the test job list rather than the main one
-    var sheet = SpreadsheetApp.openById(UNIT_TESTS_JOBS_LIST_SPREADSHEET_ID).getSheets()[0];
-    sheet.setActiveSelection(sheet.getRange("E2"));
-        
-  } else {
-  
-    // Get the row number of the row in the spreadsheet that's currently active.
-    var sheet = SpreadsheetApp.getActiveSheet();
-    
-  }
-    
-  var row = sheet.getActiveRange().getRowIndex();
-
-  if ((row == 1) || (row == 0)) {
-    
-    log(logType.WARNING, "notifyAssignee", "No row selected");
-    return false;
-
-  }    
-  
-  log(logType.INFO, "notifyAssignee", "Working on row: " + row);
-  
-  // Retrieve the assignee's info 
-  
-  var email = getCellValue(sheet, row, SS_COL_ASSIGNED_TO);
-  
-  if (email == -1) {
-    
-    log(logType.ERROR, "notifyAssignee", "Couldn't read assignee cell"); 
-    return false;
-  
-  }
-  
-  if (email == "") {
-    
-    log(logType.WARNING, "notifyAssignee", "Email field blank"); 
-    return false;
-  
-  }
-  
-  var title = getCellValue(sheet, row, SS_COL_TITLE);
-  
-  if (title == -1) {
-    
-    log(logType.ERROR, "notifyAssignee", "Couldn't read title"); 
-    return false;
-  
-  }
-
-  var notes = getCellValue(sheet, row, SS_COL_NOTES);
-
-  if (notes == -1) {
-    
-    log(logType.ERROR, "notifyAssignee", "Couldn't read notes");
-    return false;
- 
-  }
-  
-  // Construct the email for the assignee and send it
-  
-  var subject = "Job #" + row + " has been assigned to you.";
-  
-  var body = "You've been assigned maintenance job #" + row +" - " + title + "." +
-             "\n\nPlease see the maintenance job list for more details or contact " +
-             "the maintenance manager." + 
-             "\n\nThe Maintenance Manager" +
-             "\n\nx" + MAINTENANCE_OFFICE_EXTENSION;
-
-  MailApp.sendEmail(email, subject, body, EMAIL_OPTIONS);
-  
-  // Send an email to the maintenance manager as a reminder
-
-  var subject = "Job #" + row + " has been assigned to " + email + ".";
-  
-  var body = "AUTO-REMINDER" + 
-             "\n\n" + email + " has been assigned maintenance job #" + row + " - " + title + ".";
-  
-  MailApp.sendEmail(MAINTENANCE_MANAGER_EMAIL, subject, body, EMAIL_OPTIONS);
-    
-  log(logType.INFO, 
-      "notifyAssignee", 
-      "Email assignee sent to email: " + email +
-      "\n\nsubject: " + subject +
-      "\n\nbody: " + body);
-  
-  return true;
-  
-}
+} // emailStatusUpdates()
