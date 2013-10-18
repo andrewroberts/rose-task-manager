@@ -14,7 +14,7 @@ Installation Guide v0.2.0
 
 https://docs.google.com/document/d/18gq2ppU85llHqIAJB2iLBXlUaqDDPll50fte4v2jX5Q/edit?usp=sharing
 
-Demo Version 
+Demo/Master Version v0.2.0 
 
 https://docs.google.com/spreadsheet/ccc?key=0AhRtIprIrwuzdE9FSlJtVFA1MDRpUWxJQVZCVWt3ZXc&usp=sharing
 
