@@ -14,6 +14,8 @@ The heart of RoseTM is the Google spreadsheet that holds the task list. This spr
 
 Demo/master copies of the script and more detailed installation insrtuctions are available on Google Drive by following the links below.
 
+The latest scripts are no longer uploaded to github.
+
 ## [Issue Tracker](https://docs.google.com/spreadsheet/ccc?key=0Aneep_MqACaUdDRRMjg4VlZJbUVEMF91cHhtVUp2Unc&usp=sharing)
 
 ## Versions
@@ -33,15 +35,6 @@ Demo/master copies of the script and more detailed installation insrtuctions are
 [Demo/Master Spreadsheet - v0.2.1](https://docs.google.com/spreadsheet/ccc?key=0AhRtIprIrwuzdGM0c3psbFNEV0RlcXdodER1ZE9tZFE&usp=sharing)
 
 [Demo Form - v0.2.1](https://script.google.com/macros/s/AKfycbzYz3XYoLCDlFdLkeCneevHHIvMS5UBLFOTothSkQUFJ05Bixc/exec)
-
-### v0.2.0
-
-[Installation Guide - v0.2.0](https://docs.google.com/document/d/18gq2ppU85llHqIAJB2iLBXlUaqDDPll50fte4v2jX5Q/edit?usp=sharing)
-
-[Demo/Master Version - v0.2.0](https://docs.google.com/spreadsheet/ccc?key=0AhRtIprIrwuzdE9FSlJtVFA1MDRpUWxJQVZCVWt3ZXc&usp=sharing)
-
-[Test Doc - v0.2.0](https://docs.google.com/document/d/1AVo7nHECXS4cnC90z3AuQqp1R2RMiERHjVw0QWYm4Do/edit?usp=sharing)
-
 
 ### v0.2.0
 
