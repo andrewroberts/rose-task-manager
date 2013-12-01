@@ -1,25 +1,30 @@
-# RoseCMMS
+# RoseTM
 
 
-Rose CMMS is a Computerised Maintenance Management System (CMMS) that has been developed to make full use of Google Apps and Google Apps Script.
+Rose Task Manager (RoseTM) is a team/collaborative task manger that has been developed to make full use of Google Apps and Google Apps Script.
 
-It is still early in development and presently only supports planned preventative maintenance (PPM, regular tasks) and work orders (ad hoc job or task requests): effectively a collaborative/team task manager. 
+It's main features are:
 
-The heart of the CMMS is the Google spreadsheet that holds the task list. This spreadsheet has to be created with the fields detailed in config.gs and its ID has to be entered in config.gs (along with an admin email address), or a copy of the demo spreadsheet can be taken. This will give a basic list into which tasks can be entered with the ability to send a customisable update email to the task requestor. With extra configuration a customised form can be deployed as a web app to add tasks and send an email notification to the list admin. By adding a daily trigger and a calendar regular tasks can automatically be added to the list, again with email notifications. 
+* Customised Google for entering tasks to the ...
+* Online collaborative Google spreadsheet task list
+* Email notifications for new tasks and status updates
+* Merges with a Google calendar to provide automatic scheduling of regular tasks
 
-Demo/master copies of the script and the documentation are available on Google Drive, follow the links below.
+The heart of RoseTM is the Google spreadsheet that holds the task list. This spreadsheet has to be created with the fields detailed in config.gs and its ID has to be entered in config.gs (along with an admin email address), or a copy of the demo spreadsheet can be taken. This will give a basic list into which tasks can be manually entered with the ability to send a customisable update email to the task requestor. With extra configuration a customised form can be deployed as a web app to add tasks and send an email notification to the list admin. By adding a daily trigger and a calendar regular tasks can automatically be added to the list, again with email notifications.
+
+Demo/master copies of the script and more detailed installation insrtuctions are available on Google Drive by following the links below.
 
 ## [Issue Tracker](https://docs.google.com/spreadsheet/ccc?key=0Aneep_MqACaUdDRRMjg4VlZJbUVEMF91cHhtVUp2Unc&usp=sharing)
 
 ## Versions
 
-### Latest 
+### v0.3.0
 
-[Installation Guide - Latest](https://docs.google.com/document/d/1ws2OOdFm3xzOlMJx8w2ckFFfXBWW0qxZhTqO2m8-b3A/edit?usp=sharing)
+[Installation Guide - v0.3.0](https://docs.google.com/document/d/1ws2OOdFm3xzOlMJx8w2ckFFfXBWW0qxZhTqO2m8-b3A/edit?usp=sharing)
 
-[Demo/Master Spreadsheet - Latest](https://docs.google.com/spreadsheet/ccc?key=0AhRtIprIrwuzdDMxWjhacmc0TF9Uam9sZERDdXFfRmc&usp=sharing)
+[Demo/Master Spreadsheet - v0.3.0](https://docs.google.com/spreadsheet/ccc?key=0AhRtIprIrwuzdDMxWjhacmc0TF9Uam9sZERDdXFfRmc&usp=sharing)
 
-[Demo Form - Latest]()
+[Demo Form - v0.3.0](https://script.google.com/macros/s/AKfycbwOphWOKCnsEqbWto_xkrfJLybOlczKayCvJarsESbKoAHmHo21/exec)
 
 ### v0.2.1
 
