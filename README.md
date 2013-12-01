@@ -1,7 +1,7 @@
 # Rose Task Manager (RoseTM)
 
 
-Rose Task Manager (RoseTM) is a team/collaborative task manger that has been developed to make full use of Google Apps and Google Apps Script.
+Rose Task Manager (RoseTM) is a team/collaborative task manager that has been developed to make full use of Google Apps and Google Apps Script.
 
 It's main features are:
 
