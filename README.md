@@ -5,7 +5,7 @@ Rose Task Manager (RoseTM) is a team/collaborative task manager that has been de
 
 It's main features are:
 
-* Customised Google for entering tasks to the ...
+* Customised Google form for entering tasks to the ...
 * Online collaborative Google spreadsheet task list
 * Email notifications for new tasks and status updates
 * Merges with a Google calendar to provide automatic scheduling of regular tasks
