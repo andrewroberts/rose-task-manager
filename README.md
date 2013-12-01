@@ -12,7 +12,7 @@ It's main features are:
 
 The heart of RoseTM is the Google spreadsheet that holds the task list. This spreadsheet has to be created with the fields detailed in config.gs and its ID has to be entered in config.gs (along with an admin email address), or a copy of the demo spreadsheet can be taken. This will give a basic list into which tasks can be manually entered with the ability to send a customisable update email to the task requestor. With extra configuration a customised form can be deployed as a web app to add tasks and send an email notification to the list admin. By adding a daily trigger and a calendar regular tasks can automatically be added to the list, again with email notifications.
 
-Demo/master copies of the script and more detailed installation insrtuctions are available on Google Drive by following the links below.
+Demo/master copies of the script and more detailed installation instructions are available on Google Drive by following the links below.
 
 The latest scripts are no longer uploaded to github but a copy of the demo verion can be taken to view and/or update the scripts. It can also be found on [Google Doc Templates](https://docs.google.com/templates). 
 
