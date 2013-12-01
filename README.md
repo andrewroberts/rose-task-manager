@@ -14,7 +14,7 @@ The heart of RoseTM is the Google spreadsheet that holds the task list. This spr
 
 Demo/master copies of the script and more detailed installation instructions are available on Google Drive by following the links below.
 
-The latest scripts are no longer uploaded to github but a copy of the demo verion can be taken to view and/or update the scripts. It can also be found on [Google Doc Templates](https://docs.google.com/templates). 
+The latest scripts are no longer uploaded to github but a copy of the demo version can be taken to view and/or update the scripts. It can also be found on [Google Doc Templates](https://docs.google.com/templates). 
 
 ## [Issue Tracker](https://docs.google.com/spreadsheet/ccc?key=0Aneep_MqACaUdDRRMjg4VlZJbUVEMF91cHhtVUp2Unc&usp=sharing)
 
