@@ -5,7 +5,8 @@ Rose Task Manager (RoseTM) is a team/collaborative task manager that has been de
 
 It's main features are:
 
-* Customised Google form for entering tasks to the ...
+* Works with new Google sheets
+* Customised Google form for entering tasks
 * Online collaborative Google spreadsheet task list
 * Email notifications for new tasks and status updates
 * Merges with a Google calendar to provide automatic scheduling of regular tasks
@@ -19,6 +20,14 @@ The latest scripts are no longer uploaded to github but a copy of the demo versi
 ## [Issue Tracker](https://docs.google.com/spreadsheet/ccc?key=0Aneep_MqACaUdDRRMjg4VlZJbUVEMF91cHhtVUp2Unc&usp=sharing)
 
 ## Versions
+
+### v0.4.1
+
+[Installation Guide - v0.4.1](https://docs.google.com/document/d/1SzJ2FzbOnaWo2eps1-tkwzIfm6DmZl7ABIDuLHUpYkU)
+
+[Demo/Master Spreadsheet - v0.4.1](https://docs.google.com/spreadsheets/d/1UsvzYZ4VCuHu6-n0DU9KXRKvLWfLwUXcd5JcsWtwccY/edit?usp=sharing)
+
+[Demo Form - v0.4.1](https://script.google.com/macros/s/AKfycbyYKNM1PB0m6T408gbYZORsdTANF5Qobzs9bsWnQVZ6HeuEfWc/exec)
 
 ### v0.3.0
 
