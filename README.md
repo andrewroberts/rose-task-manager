@@ -23,6 +23,8 @@ The latest scripts are no longer uploaded to github but a copy of the demo versi
 
 ### v0.4.1
 
+[Changelog](http://www.andrewroberts.net/2014/09/new-release-rose-task-manager-v0-4-1/)
+
 [Installation Guide - v0.4.1](https://docs.google.com/document/d/1SzJ2FzbOnaWo2eps1-tkwzIfm6DmZl7ABIDuLHUpYkU)
 
 [Demo/Master Spreadsheet - v0.4.1](https://docs.google.com/spreadsheets/d/1UsvzYZ4VCuHu6-n0DU9KXRKvLWfLwUXcd5JcsWtwccY/edit?usp=sharing)
