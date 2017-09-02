@@ -23,8 +23,6 @@ Demo/master copies of the script and more detailed installation instructions are
 
 [Demo/Master Spreadsheet - v1.5](https://docs.google.com/spreadsheets/d/1kCovoho9Le_8L0uAZ4xv_n0zsyzdhEBi6_iITFMRcO0/edit?usp=sharing)
 
-[Demo Form - v1.5](https://docs.google.com/forms/d/e/1FAIpQLSfZ5B-vPSLNmNRlAdKjTwJJXu0dftBFr1_cmp9egKOTxbq5gA/viewform)
-
 ### v0.4.1
 
 [Changelog](http://www.andrewroberts.net/2014/09/new-release-rose-task-manager-v0-4-1/)
