@@ -1,7 +1,7 @@
-# Rose Task Manager (RoseTM)
+# Rose Task Manager (RTM)
 
 
-Rose Task Manager (RoseTM) is a team/collaborative task manager that has been developed to make full use of Google Apps and Google Apps Script.
+Rose Task Manager (RM) is a team/collaborative task manager that has been developed to make full use of Google Apps and Google Apps Script.
 
 It's main features are:
 
@@ -11,15 +11,19 @@ It's main features are:
 * Email notifications for new tasks and status updates
 * Merges with a Google calendar to provide automatic scheduling of regular tasks
 
-The heart of RoseTM is the Google spreadsheet that holds the task list. This spreadsheet has to be created with the fields detailed in config.gs and its ID has to be entered in config.gs (along with an admin email address), or a copy of the demo spreadsheet can be taken. This will give a basic list into which tasks can be manually entered with the ability to send a customisable update email to the task requestor. With extra configuration a customised form can be deployed as a web app to add tasks and send an email notification to the list admin. By adding a daily trigger and a calendar regular tasks can automatically be added to the list, again with email notifications.
+The heart of RTM is the Google spreadsheet that holds the task list. This spreadsheet has to be created with the fields detailed in config.gs and its ID has to be entered in config.gs (along with an admin email address), or a copy of the demo spreadsheet can be taken. This will give a basic list into which tasks can be manually entered with the ability to send a customisable update email to the task requestor. With extra configuration a customised form can be deployed as a web app to add tasks and send an email notification to the list admin. By adding a daily trigger and a calendar regular tasks can automatically be added to the list, again with email notifications.
 
 Demo/master copies of the script and more detailed installation instructions are available on Google Drive by following the links below.
-
-The latest scripts are no longer uploaded to github but a copy of the demo version can be taken to view and/or update the scripts. It can also be found on [Google Doc Templates](https://docs.google.com/templates). 
 
 ## [Issue Tracker](https://docs.google.com/spreadsheet/ccc?key=0Aneep_MqACaUdDRRMjg4VlZJbUVEMF91cHhtVUp2Unc&usp=sharing)
 
 ## Versions
+
+### v1.5
+
+[Demo/Master Spreadsheet - v1.5](https://docs.google.com/spreadsheets/d/1aHLHuph3-CkgMjGjx-NhxyKRmzF95OPLUUbUJs9Zxgg/edit?usp=sharing)
+
+[Demo Form - v1.5](https://docs.google.com/forms/d/e/1FAIpQLScZwfz7a32iMqLiK3WLKoxx1nFXph42Du5uzM0uO1dtvn6hKg/viewform)
 
 ### v0.4.1
 
