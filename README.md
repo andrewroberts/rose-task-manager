@@ -21,9 +21,9 @@ Demo/master copies of the script and more detailed installation instructions are
 
 ### v1.5
 
-[Demo/Master Spreadsheet - v1.5](https://docs.google.com/spreadsheets/d/1aHLHuph3-CkgMjGjx-NhxyKRmzF95OPLUUbUJs9Zxgg/edit?usp=sharing)
+[Demo/Master Spreadsheet - v1.5](https://docs.google.com/spreadsheets/d/1kCovoho9Le_8L0uAZ4xv_n0zsyzdhEBi6_iITFMRcO0/edit?usp=sharing)
 
-[Demo Form - v1.5](https://docs.google.com/forms/d/e/1FAIpQLScZwfz7a32iMqLiK3WLKoxx1nFXph42Du5uzM0uO1dtvn6hKg/viewform)
+[Demo Form - v1.5](https://docs.google.com/forms/d/e/1FAIpQLSfZ5B-vPSLNmNRlAdKjTwJJXu0dftBFr1_cmp9egKOTxbq5gA/viewform)
 
 ### v0.4.1
 
