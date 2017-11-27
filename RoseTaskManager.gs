@@ -13,3 +13,9 @@ function onClearConfig(arg)          {return RTM.onClearConfig(arg)}
 function onThrowError(arg)           {return RTM.onThrowError(arg)}
 function onStartCalendarTrigger(arg) {return RTM.onStartCalendarTrigger(arg)}
 function onStopCalendarTrigger(arg)  {return RTM.onStopCalendarTrigger(arg)}
+function onShowSidebar(arg)          {return RTM.onShowSidebar(arg)}
+function onGetSettings(arg)          {return RTM.onGetSettings(arg)}
+function onSetNewTaskTemplate(arg)   {return RTM.onSetNewTaskTemplate(arg)}
+function onSetStatusTemplate(arg)    {return RTM.onSetStatusTemplate(arg)}
+function onSetNewFrom(arg)           {return RTM.onSetNewFrom(arg)}
+function onDumpEventCount(arg)       {return RTM.onDumpEventCount(arg)}
