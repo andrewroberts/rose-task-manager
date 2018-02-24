@@ -3,7 +3,7 @@
 
 Rose Task Manager (RTM) is a team/collaborative task manager that has been developed to make full use of Google Apps and Google Apps Script.
 
-This script is a wrapper for the main functionality in the RoseTaskManager library:
+This script is a wrapper for the main functionality in [the RoseTaskManager library](https://github.com/andrewroberts/RoseTaskManager-Library):
 
 - RoseTaskManager - v23 (v1.6) - 1tVH7c4y945oQ9mbTwGWbMeNhs6gYD2Ff2HV1f-dGSVUatPXSqO-chNwT
 
