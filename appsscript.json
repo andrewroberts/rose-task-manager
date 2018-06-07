@@ -1,0 +1,16 @@
+{
+  "timeZone": "Europe/London",
+  "dependencies": {
+    "enabledAdvancedServices": [{
+      "userSymbol": "Sheets",
+      "serviceId": "sheets",
+      "version": "v4"
+    }],
+    "libraries": [{
+      "userSymbol": "RTM",
+      "libraryId": "1tVH7c4y945oQ9mbTwGWbMeNhs6gYD2Ff2HV1f-dGSVUatPXSqO-chNwT",
+      "version": "24"
+    }]
+  },
+  "exceptionLogging": "STACKDRIVER"
+}
