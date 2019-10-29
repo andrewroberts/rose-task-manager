@@ -9,7 +9,7 @@
     "libraries": [{
       "userSymbol": "RTM",
       "libraryId": "1tVH7c4y945oQ9mbTwGWbMeNhs6gYD2Ff2HV1f-dGSVUatPXSqO-chNwT",
-      "version": "35"
+      "version": "36"
     }]
   },
   "exceptionLogging": "STACKDRIVER"
