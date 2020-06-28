@@ -1,5 +1,5 @@
 var SCRIPT_NAME = 'Rose Task Manager'
-var SCRIPT_VERSION = 'v1.19'
+var SCRIPT_VERSION = 'v1.21'
 
 function onInstall(arg)              {return RTM.onInstall(arg)}
 function onSetup(arg)                {return RTM.onSetup(arg)}
